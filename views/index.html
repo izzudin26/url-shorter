@@ -34,11 +34,27 @@
                                 </v-text-field>
                                 <v-checkbox v-model="isCustom" :label="`Custom URL`"></v-checkbox>
                                 <v-btn class="btn-submit" block @click="isLoading = !isLoading">SHORT LINK</v-btn>
-                                <v-text-field v-model="shortValue" disabled outlined class="pa-form"></v-text-field>
+                                <div v-if="isDone">
+                                    <v-text-field class="result-box" v-model="shortValue" solo disabled
+                                        append-icon="mdi-link-variant">
+                                    </v-text-field>
+                                    <v-row>
+                                        <v-col cols="6">
+                                            <v-btn block text>Copy Clipboard
+                                            </v-btn>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-btn block text>Go To Link
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </div>
+
                             </v-col>
+
+
                         </v-row>
                     </v-card>
-
                 </v-col>
             </v-row>
         </v-container>
@@ -54,7 +70,8 @@
                 isCustom: false,
                 isLoading: false,
                 domain: window.location.hostname,
-                shortValue: `${window.location.hostname}/uri`
+                shortValue: `${window.location.hostname}/uri`,
+                isDone: false
             },
             vuetify: new Vuetify({
                 theme: {

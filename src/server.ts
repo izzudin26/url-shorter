@@ -23,7 +23,7 @@ class App {
   }
   routes(): void {
     this.app.get("/", (req, res) => {
-      res.sendFile(path.join(__dirname + "/views/index.html"));
+      res.sendFile(path.join(__dirname + "../views/index.html"));
     });
     this.app.get("/:url", controller.findUrl);
     this.app.post("/store-url", controller.storeUrl);

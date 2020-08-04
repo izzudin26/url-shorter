@@ -2,11 +2,16 @@ body {
   background-image: url("simplebg-min.jpg");
   width: auto;
   background-size: auto;
+  font-family: Roboto;
 }
 
 .title {
-  font-family: Roboto;
   color: #ff4411;
+}
+
+.result-box {
+  padding: 2%;
+  margin-top: 5px;
 }
 
 .pa-form {
@@ -14,15 +19,14 @@ body {
 }
 
 .subtitle {
-  font-family: sans-serif;
   color: #666;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
 .btn-submit {
-  font-family: Roboto;
   background-color: green;
+  margin-bottom: 5%;
 }
 
 .fade-enter-active,
