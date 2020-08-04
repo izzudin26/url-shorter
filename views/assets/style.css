@@ -1,0 +1,36 @@
+body {
+  background-image: url("simplebg-min.jpg");
+  width: auto;
+  background-size: auto;
+}
+
+.title {
+  font-family: Roboto;
+  color: #ff4411;
+}
+
+.pa-form {
+  padding: 3%;
+}
+
+.subtitle {
+  font-family: sans-serif;
+  color: #666;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.btn-submit {
+  font-family: Roboto;
+  background-color: green;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}

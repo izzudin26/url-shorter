@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>URL SHORTER</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <div id="app">
+        <v-container>
+            <v-row align="center" justify="center">
+                <v-col sm="12" md="12" lg="6">
+                    <v-row justify="center" align="center">
+                        <v-img src="assets/3918929-min.png"></v-img>
+                    </v-row>
+                </v-col>
+                <v-col sm="12" md="12" lg="6">
+                    <v-card>
+                        <v-row align="center" class="pa-form">
+                            <v-col cols="12" class="justify-center">
+                                <h2 class="title">SHORT YOUR URL</h2>
+                                <p class="subtitle">MAKE EVERYONE EASY ACCESS YOUR WEBSITE</p>
+                                <v-text-field v-model="redirectUrl" color="primary" outlined placeholder="Your Link"
+                                    append-icon="mdi-link" :loading="isLoading" :disabled="isLoading" regular rounded>
+                                </v-text-field>
+                                <v-text-field v-if="isCustom" outlined placeholder="Custom URL" append-icon="mdi-link"
+                                    rounded>
+                                </v-text-field>
+                                <v-checkbox v-model="isCustom" :label="`Custom URL`"></v-checkbox>
+                                <v-btn class="btn-submit" block @click="isLoading = !isLoading">SHORT LINK</v-btn>
+                                <v-text-field v-model="shortValue" disabled outlined class="pa-form"></v-text-field>
+                            </v-col>
+                        </v-row>
+                    </v-card>
+
+                </v-col>
+            </v-row>
+        </v-container>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                shortUrl: '',
+                redirectUrl: "",
+                isCustom: false,
+                isLoading: false,
+                domain: window.location.hostname,
+                shortValue: `${window.location.hostname}/uri`
+            },
+            vuetify: new Vuetify({
+                theme: {
+                    themes: {
+                        light: {
+                            primary: '#3f51b5',
+                            secondary: '#b0bec5',
+                            accent: '#8c9eff',
+                            error: '#b71c1c',
+                        },
+                    },
+                },
+            })
+        })
+    </script>
+</body>
+
+</html>
