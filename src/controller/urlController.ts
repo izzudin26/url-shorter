@@ -31,7 +31,7 @@ class UrlController {
 
     if (urlReady.length > 0) {
       //if url has found in db
-      return res.send({ status: "OK", data: urlReady }).status(200);
+      return res.send({ status: "OK", data: urlReady[0] }).status(200);
     } else if (shortUrl) {
       //if url not found in DB and custom shortUrl not null
       await urlModel
