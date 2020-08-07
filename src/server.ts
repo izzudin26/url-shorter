@@ -13,14 +13,17 @@ class App {
     this.plugin();
     this.routes();
   }
+
   connection(): void {
     connect();
     checkConnection();
   }
+
   plugin(): void {
     this.app.use(express.static("views"));
     this.app.use(bodyParse.json());
   }
+
   routes(): void {
     this.app.get("/", (req, res) => {
       res.sendFile(path.join(__dirname + "../views/index.html"));

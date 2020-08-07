@@ -27,13 +27,19 @@
                                 <h2 class="title">SHORT YOUR URL</h2>
                                 <p class="subtitle">MAKE EVERYONE EASY ACCESS YOUR WEBSITE</p>
                                 <v-text-field v-model="redirectUrl" color="primary" outlined placeholder="Your Link"
-                                    append-icon="mdi-link" :loading="isLoading" :disabled="isLoading" regular rounded>
+                                    append-icon="mdi-link" :disabled="isLoading" regular rounded>
                                 </v-text-field>
-                                <v-text-field v-if="isCustom" outlined placeholder="Custom URL" append-icon="mdi-link"
-                                    rounded>
+                                <v-text-field v-model="customUrl" v-if="isCustom" outlined placeholder="Custom URL"
+                                    append-icon="mdi-link" rounded :disabled="isLoading" regular>
                                 </v-text-field>
                                 <v-checkbox v-model="isCustom" :label="`Custom URL`"></v-checkbox>
-                                <v-btn class="btn-submit" block @click="isLoading = !isLoading">SHORT LINK</v-btn>
+                                <v-btn block :loading="isLoading" :disabled="isLoading" color="success"
+                                    @click="isLoading = !isLoading">
+                                    Custom Loader
+                                    <template v-slot:loader>
+                                        <span>Loading...</span>
+                                    </template>
+                                </v-btn>
                                 <div v-if="isDone">
                                     <v-text-field class="result-box" v-model="shortValue" solo disabled
                                         append-icon="mdi-link-variant">
@@ -51,8 +57,6 @@
                                 </div>
 
                             </v-col>
-
-
                         </v-row>
                     </v-card>
                 </v-col>
@@ -67,6 +71,7 @@
             data: {
                 shortUrl: '',
                 redirectUrl: "",
+                customUrl: "",
                 isCustom: false,
                 isLoading: false,
                 domain: window.location.hostname,
