@@ -8,7 +8,12 @@ class UrlController {
     return await urlModel
       .findOne({ shortUrl: url })
       .then((doc: any) => {
-        return res.redirect(doc.redirectUrl);
+        let port = doc.redirectUrl.substring(0, 4);
+        if (port == "http") {
+          return res.status(301).redirect(doc.redirectUrl);
+        } else {
+          return res.status(301).redirect(`http://${doc.redirectUrl}`);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -18,6 +23,7 @@ class UrlController {
 
   public async storeUrl(req: Request, res: Response) {
     let { shortUrl, redirectUrl } = req.body;
+    console.log(req.body);
 
     // check is url already in database
     const urlReady = await urlModel
@@ -37,7 +43,7 @@ class UrlController {
       await urlModel
         .create({
           shortUrl,
-          redirectUrl,
+          redirectUrl: redirectUrl,
         })
         .then((result) => {
           return res.send({ status: "OK", data: result });
@@ -52,10 +58,11 @@ class UrlController {
       await urlModel
         .create({
           _id: _oid,
-          shortUrl: _oid.toString().substring(0, 5),
-          redirectUrl,
+          shortUrl: _oid.toString().substring(0, 6),
+          redirectUrl: redirectUrl,
         })
         .then((result) => {
+          console.log(result);
           return res.send({ response: "OK", data: result }).status(200);
         })
         .catch((err) => {

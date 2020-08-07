@@ -34,22 +34,22 @@
                                 </v-text-field>
                                 <v-checkbox v-model="isCustom" :label="`Custom URL`"></v-checkbox>
                                 <v-btn block :loading="isLoading" :disabled="isLoading" color="success"
-                                    @click="isLoading = !isLoading">
+                                    @click="store()">
                                     Custom Loader
                                     <template v-slot:loader>
                                         <span>Loading...</span>
                                     </template>
                                 </v-btn>
                                 <div v-if="isDone">
-                                    <v-text-field class="result-box" v-model="shortValue" solo disabled
-                                        append-icon="mdi-link-variant">
+                                    <v-text-field class="result-box" solo disabled append-icon="mdi-link-variant"
+                                        :value="`${domain}/${shortValue}`">
                                     </v-text-field>
                                     <v-row>
                                         <v-col cols="6">
-                                            <v-btn block text>Copy Clipboard
+                                            <v-btn block text @click="copyClipboard()">Copy Clipboard
                                             </v-btn>
                                         </v-col>
-                                        <v-col cols="6">
+                                        <v-col cols="6" @click="openLink()">
                                             <v-btn block text>Go To Link
                                             </v-btn>
                                         </v-col>
@@ -62,34 +62,60 @@
                 </v-col>
             </v-row>
         </v-container>
+        <v-snackbar v-model="snackbar" :timeout="timeout">
+            {{ snackbarText }}
+            <template v-slot:action="{ attrs }">
+                <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         let app = new Vue({
             el: "#app",
             data: {
-                shortUrl: '',
+                snackbarText: "",
                 redirectUrl: "",
+                snackbar: false,
+                timeout: 1500,
                 customUrl: "",
                 isCustom: false,
+                domain: `${window.location.hostname}`,
                 isLoading: false,
-                domain: window.location.hostname,
-                shortValue: `${window.location.hostname}/uri`,
+                shortValue: "",
                 isDone: false
             },
-            vuetify: new Vuetify({
-                theme: {
-                    themes: {
-                        light: {
-                            primary: '#3f51b5',
-                            secondary: '#b0bec5',
-                            accent: '#8c9eff',
-                            error: '#b71c1c',
-                        },
-                    },
+            methods: {
+                async store() {
+                    this.isLoading = true
+                    await axios.post("/store-url", {
+                        shortUrl: this.customUrl == "" ? null : this.customUrl,
+                        redirectUrl: this.redirectUrl
+                    })
+                        .then((result) => {
+                            this.isDone = true
+                            this.isLoading = false
+                            this.shortValue = `${result.data.data.shortUrl}`
+                        }).catch((err) => {
+                            this.snackbarText = "Something is Error"
+                            this.snackbar = true
+                        });
                 },
-            })
+                copyClipboard() {
+                    let textCopy = this.shortValue
+                    document.execCommand("copy", textCopy)
+                    this.snackbarText = "copy to clipboard"
+                    this.snackbar = true
+                },
+                openLink() {
+                    window.open(`${this.shortValue}`)
+                }
+            },
+            vuetify: new Vuetify({})
         })
     </script>
 </body>
