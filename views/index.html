@@ -37,12 +37,13 @@
                                     </template>
                                 </v-btn>
                                 <div v-if="isDone">
-                                    <v-text-field class="result-box" solo disabled append-icon="mdi-link-variant"
-                                        :value="`${domain}/${shortValue}`">
+                                    <v-text-field id="result-box" class="result-box" solo readonly
+                                        append-icon="mdi-link-variant" :value="`${domain}/${shortValue}`">
                                     </v-text-field>
                                     <v-row>
                                         <v-col cols="6">
-                                            <v-btn block text @click="copyClipboard()">Copy Clipboard
+                                            <v-btn data-clipboard-target="#result-box" class="btn-copy" block text
+                                                @click="copyClipboard()">Copy Clipboard
                                             </v-btn>
                                         </v-col>
                                         <v-col cols="6" @click="openLink()">
@@ -68,9 +69,11 @@
         </v-snackbar>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
+        new ClipboardJS(".btn-copy")
         let app = new Vue({
             el: "#app",
             data: {
@@ -102,8 +105,6 @@
                         });
                 },
                 copyClipboard() {
-                    let textCopy = this.shortValue
-                    document.execCommand("copy", textCopy)
                     this.snackbarText = "copy to clipboard"
                     this.snackbar = true
                 },
