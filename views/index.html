@@ -29,13 +29,9 @@
                                 <v-text-field v-model="redirectUrl" color="primary" outlined placeholder="Your Link"
                                     append-icon="mdi-link" :disabled="isLoading" regular rounded>
                                 </v-text-field>
-                                <v-text-field v-model="customUrl" v-if="isCustom" outlined placeholder="Custom URL"
-                                    append-icon="mdi-link" rounded :disabled="isLoading" regular>
-                                </v-text-field>
-                                <v-checkbox v-model="isCustom" :label="`Custom URL`"></v-checkbox>
-                                <v-btn block :loading="isLoading" :disabled="isLoading" color="success"
+                                <v-btn block class="btn-submit" :loading="isLoading" :disabled="isLoading"
                                     @click="store()">
-                                    Custom Loader
+                                    SHORTEN
                                     <template v-slot:loader>
                                         <span>Loading...</span>
                                     </template>

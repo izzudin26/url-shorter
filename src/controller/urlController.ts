@@ -38,27 +38,15 @@ class UrlController {
     if (urlReady.length > 0) {
       //if url has found in db
       return res.send({ status: "OK", data: urlReady[0] }).status(200);
-    } else if (shortUrl) {
-      //if url not found in DB and custom shortUrl not null
-      await urlModel
-        .create({
-          shortUrl,
-          redirectUrl: redirectUrl,
-        })
-        .then((result) => {
-          return res.send({ status: "OK", data: result });
-        })
-        .catch((err) => {
-          console.log({ error: err });
-          return res.send(500);
-        });
     } else {
       //if url not found inD DB and custom redirectUrl is null
-      let _oid = mongoose.Types.ObjectId();
+      let _oid = mongoose.Types.ObjectId().toString();
+      let lastChar = _oid.substr(_oid.length - 3);
+      let firstChar = _oid.substr(0, 4);
       await urlModel
         .create({
           _id: _oid,
-          shortUrl: _oid.toString().substring(0, 6),
+          shortUrl: `${firstChar}${lastChar}`,
           redirectUrl: redirectUrl,
         })
         .then((result) => {
